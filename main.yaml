@@ -1,0 +1,22 @@
+---
+- name: Instalar servicios en instancias ec2
+  hosts: all
+  gather_facts: no
+  vars:
+    usuario: adUser
+    directorio_destino: "/home/{{ usuario }}/app"
+    archivos_a_copiar:
+      - ad_service.py
+      - db.py
+      - ip.py
+      - main.py
+      - sendMail.py
+      - wireguard.py
+  tasks:
+    - name: Instalar todo lo relacionado a wireguard en el servidor.
+      include_tasks: ./tasks/wireguard.yaml
+      when: inventory_hostname == "server_vpn"
+
+    - name: Configurar entorno en servidor remoto
+      include_tasks: ./tasks/private_server.yaml
+      when: inventory_hostname == "server_interno"

@@ -1,0 +1,24 @@
+- name: Crear usuario con home
+  ansible.builtin.user:
+    name: "{{ usuario }}"
+    home: "/home/{{ usuario }}"
+    create_home: yes
+    state: present
+
+- name: Crear directorio dentro del home
+  ansible.builtin.file:
+    path: "{{ directorio_destino }}"
+    state: directory
+    owner: "{{ usuario }}"
+    group: "{{ usuario }}"
+    mode: '0755'
+
+- name: Copiar archivos al directorio del usuario
+  ansible.builtin.copy:
+    src: "files/{{ item }}"
+    dest: "{{ directorio_destino }}/{{ item }}"
+    owner: "{{ usuario }}"
+    group: "{{ usuario }}"
+    mode: '0644'
+    loop: "{{ archivos_a_copiar }}"
+

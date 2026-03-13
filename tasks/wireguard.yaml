@@ -1,0 +1,23 @@
+- name: Instalar wireguard
+  ansible.builtin.dnf:
+    name: wireguard-tools
+    state: present
+
+- name: Enviar Archivo a servidor
+  copy:
+    src: ../files/wg0.conf
+    dest: /etc/wireguard/wg0.conf
+    owner: root
+    group: root
+    mode: '0600'
+
+- name: Inicializar wireguard
+  ansible.builtin.systemd_service:
+    name: wg-quick@wg0
+    enabled: true
+    state: started
+
+- name: Reiniciar servicio wireguard
+  ansible.builtin.systemd_service:
+    name: wg-quick@wg0
+    state: reloaded
