@@ -1,2 +1,2 @@
 #!/bin/bash
-sudo wg-quick up ./client.conf
+wg-quick up ./client.conf
