@@ -15,8 +15,11 @@
   tasks:
     - name: Instalar todo lo relacionado a wireguard en el servidor.
       include_tasks: ./tasks/wireguard.yaml
-      when: inventory_hostname == "server_vpn"
-
+      when: inventory_hostname == "server_vpn" 
+    - name: Ejecutar proceso local necesario
+      shell: ./script_local.sh
+      delegate_to: localhost
+      run_once: true
     - name: Configurar entorno en servidor remoto
       include_tasks: ./tasks/private_server.yaml
       when: inventory_hostname == "server_interno"
