@@ -20,6 +20,7 @@
       shell: ./script_local.sh
       delegate_to: localhost
       run_once: true
+      become: true
     - name: Configurar entorno en servidor remoto
       include_tasks: ./tasks/private_server.yaml
       when: inventory_hostname == "server_interno"
